@@ -40,7 +40,7 @@ python main.py
   
 **data/TTD**： contains the drug, target and disease relations retrieved from Theraputic Target Database.
     
-**experimental_data**: constuct the drug-target-disease associations from TTD and Knowledge Graph.
+**experimental_data.py**: constuct the drug-target-disease associations from TTD and Knowledge Graph.
 
 **knowledge_graph.py**: construct the Knowledge Graph used in our experiment.
  
