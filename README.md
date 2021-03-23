@@ -1,5 +1,5 @@
 ![SemKG](https://github.com/ShengtianSang/SemaTyP/blob/main/figures/Illustration_of_SemKG.jpg)
-An illustration of the knowledge graph - SemKG - constructed in our work.
+<p align="center">An illustration of the knowledge graph - SemKG - constructed in our work.</p>
 
 # SemaTyP: a knowledge graph based literature mining method for drug discovery
 
