@@ -4,6 +4,13 @@
 
 This is the source code and data for the task of drug discovery as describe in ou paper:
 ["SemaTyP: a knowledge graph based literature mining method for drug discovery"](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2167-5)
+
+## Requirements
+* scikit-learn
+* numpy
+* xgboost
+* tqdm
+
 Process:
 1) Input the command "pip install -r requirements.txt" to install the environment 
 
@@ -29,3 +36,19 @@ Process:
 >><load_data.py> is used to load traing and test data.
 
 >><main.py> is used to train and test the models
+
+## Cite
+
+Please cite our paper if you use this code in your own work:
+'''
+@article{sang2018sematyp,
+  title={SemaTyP: a knowledge graph based literature mining method for drug discovery},
+  author={Sang, Shengtian and Yang, Zhihao and Wang, Lei and Liu, Xiaoxia and Lin, Hongfei and Wang, Jian},
+  journal={BMC bioinformatics},
+  volume={19},
+  number={1},
+  pages={1--11},
+  year={2018},
+  publisher={Springer}
+}
+'''
