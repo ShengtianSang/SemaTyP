@@ -1,4 +1,4 @@
-<div align=center><img width="400" height="300" src="https://github.com/ShengtianSang/SemaTyP/blob/main/figures/Illustration_of_SemKG.jpg"/></div>
+<div align=center><img width="800" height="600" src="https://github.com/ShengtianSang/SemaTyP/blob/main/figures/Illustration_of_SemKG.jpg"/></div>
 <p align="center">An illustration of the knowledge graph - SemKG - constructed in our work.</p>
 
 # SemaTyP: a knowledge graph based literature mining method for drug discovery
