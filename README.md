@@ -1,7 +1,8 @@
-# SemaTyP: a knowledge graph based literature mining method for drug discovery
-![image](https://github.com/ShengtianSang/SemaTyP/blob/main/figures/Illustration_of_SemKG.jpg)
-This is the source code and data of our published paper "SemaTyP: a knowledge graph based literature mining method for drug discovery"
+![SemKG](https://github.com/ShengtianSang/SemaTyP/blob/main/figures/Illustration_of_SemKG.jpg)
 
+# SemaTyP: a knowledge graph based literature mining method for drug discovery
+
+This is the source code and data of our published paper "SemaTyP: a knowledge graph based literature mining method for drug discovery"
 Process:
 1) Input the command "pip install -r requirements.txt" to install the environment 
 
