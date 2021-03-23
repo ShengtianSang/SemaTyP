@@ -33,7 +33,7 @@ python main.py
 ```
 
 ## Illustration of feature selection
-<div align=center><img width="800" height="450" src="https://github.com/ShengtianSang/SemaTyP/blob/main/figures/Illustration_of_Feature_selection.jpg"/></div>
+<div align=center><img width="800" height="300" src="https://github.com/ShengtianSang/SemaTyP/blob/main/figures/Illustration_of_Feature_selection.jpg"/></div>
 <p align="center">
 An illustration of the features constructed in our work.
 </p>
