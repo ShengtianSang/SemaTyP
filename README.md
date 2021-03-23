@@ -49,7 +49,7 @@ An illustration of the features constructed in our work.
 
 **knowledge_graph.py**: construct the Knowledge Graph used in our experiment.
  
-**load_data.py**：used to load traing and test data.
+**data_loader.py**：used to load traing and test data.
 
 **main.py**：used to train and test the models
 
