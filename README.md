@@ -41,7 +41,7 @@ Process:
 
 Please cite our paper if you use this code in your own work:
 
-'''
+```
 @article{sang2018sematyp,
   title={SemaTyP: a knowledge graph based literature mining method for drug discovery},
   author={Sang, Shengtian and Yang, Zhihao and Wang, Lei and Liu, Xiaoxia and Lin, Hongfei and Wang, Jian},
@@ -52,4 +52,4 @@ Please cite our paper if you use this code in your own work:
   year={2018},
   publisher={Springer}
 }
-'''
+```
