@@ -14,14 +14,23 @@ This is the source code and data for the task of drug discovery as describe in o
 
 In order to use the code, you have to provide 
 * [Theraputic Target Database](http://db.idrblab.net/ttd/full-data-download)  You don't need to download by yourself, I have uploaded all the TTD 2016 version in *<./data/TTD>*. 
-* [SemedDB](https://skr3.nlm.nih.gov/SemMedDB/) The knowledge graph is constructed by all relations contained in SemedDB, **you need to download from [here](https://pan.baidu.com/s/1zuOELNGAua6i523_nLK6mw)** with password:1234 . After downloading the "predications.txt" file, please the file *<./data/SemedDB/predications.txt>*. with this new downloaded file. 
+* [SemedDB](https://skr3.nlm.nih.gov/SemMedDB/) The knowledge graph is constructed by all relations contained in SemedDB, **you need to download from [here](https://pan.baidu.com/s/1zuOELNGAua6i523_nLK6mw)** with password:1234 . After downloading the "predications.txt" file, please replace the file *<./data/SemedDB/predications.txt>*. with this **new** downloaded file. 
 
-Process:
-1) Input the command "pip install -r requirements.txt" to install the environment 
+## Run the demo
+```bash
+pip install -r requirements.txt
+```
+Install the environment.
 
-2) Using python command to construct training and test data: python experimental_data.py
+```bash
+python experimental_data.py
+```
+Construct training and test data.
 
-3) Using python command to train and test the model: python main.py
+```bash
+python main.py
+```
+Train and test the model.
 
 
 >File declaration:
