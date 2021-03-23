@@ -1,6 +1,8 @@
 import pickle
 import os
 from tqdm import tqdm
+import random
+import random
 from utils import data_process
 from knowledge_graph import Construct_KG
 
@@ -485,121 +487,107 @@ class Extract_Data:
             print("NOT FOUND " + drug + "\t" + target + "\t" + disease)
 
 
-class obtain_experimental_data:
+    def negative_dtd_cases(self):
+        """
+        negative_dtd_cases is used to construct negative drug-target-disease associations.
+        """
+        if os.path.exists(self.output_dir + "/KnowledgeGraph"):
+            KG = pickle.load(open(self.output_dir + "/KnowledgeGraph", "rb"))
+        else:
+            constuct_KG = Construct_KG(self.predication_dir + "/predications.txt", self.output_dir + "/KnowledgeGraph")
+            KG = constuct_KG.construct_KnowledgeGraph()
 
-
-    ## 构造负样例
-    def obtain_disease_target_drug_negative_examples(self,KG_file,experimental_disease_target_drug_file_positive,output_file):
-        ## load KnowledgeGraph file
-        file=open(KG_file,"rb")
-        KG=pickle.load(file)
-        file.close()
-        output=open(output_file,"w+")
-        ## construct positive training data
         entity_set={}
         drug_type_set={}
         target_type_set={}
         disease_type_set={}
-        disease_target_drug=open(experimental_disease_target_drug_file_positive,"r")
-        line=disease_target_drug.readline()
-        while line:
-            sline=line.split("\t")
-            drug=sline[2].split(":")[1].strip("\n")
-            disease=sline[0].split(":")[1].strip("\n")
-            target=sline[1].split(":")[1].strip("\n")
-            entity_set[drug]=1
-            entity_set[target]=1
-            entity_set[disease]=1
-            if drug in KG:
-                for umls_type in KG[drug]["TYPES"]:
-                    drug_type_set[umls_type]=1
-            if target in KG:
-                for umls_type in KG[target]["TYPES"]:
-                    target_type_set[umls_type]=1
-            if disease in KG:
-                for umls_type in KG[disease]["TYPES"]:
-                    disease_type_set[umls_type]=1
-            line=disease_target_drug.readline()
-        negative_examples_count=0
-        entity_list=list(KG)
-        selected_examples={}
-        while negative_examples_count < 5000000:
-            if (negative_examples_count%50000 == 0):
-                print(negative_examples_count)
-            random_drug=random.choice(entity_list)
-            random_target=random.choice(entity_list)
-            random_disease=random.choice(entity_list)
-            selected_example=random_drug+" "+random_target+" "+random_disease
-            while selected_example in selected_examples:
+        output = open(self.output_dir + "/experimental_disease_target_drug_negative", "w+")
+        print("Constructing the negative drug-target-disease cases ...")
+        with open(self.output_dir + "/experimental_disease_target_drug", "r") as f:
+            for line in tqdm(f, total=sum(1 for _ in open(self.output_dir + "/experimental_disease_target_drug", "r"))):
+                sline=line.split("\t")
+                drug=data_process.process_en(sline[2].split(":")[1].strip("\n"))
+                disease=data_process.process_en(sline[0].split(":")[1].strip("\n"))
+                target=data_process.process_en(sline[1].split(":")[1].strip("\n"))
+                entity_set[drug]=1
+                entity_set[target]=1
+                entity_set[disease]=1
+                if drug in KG:
+                    for umls_type in KG[drug]["TYPES"]:
+                        drug_type_set[umls_type]=1
+                if target in KG:
+                    for umls_type in KG[target]["TYPES"]:
+                        target_type_set[umls_type]=1
+                if disease in KG:
+                    for umls_type in KG[disease]["TYPES"]:
+                        disease_type_set[umls_type]=1
+
+            negative_examples_count=0
+            entity_list=list(KG)
+            selected_examples={}
+            while negative_examples_count < 5000000:
                 random_drug=random.choice(entity_list)
                 random_target=random.choice(entity_list)
                 random_disease=random.choice(entity_list)
                 selected_example=random_drug+" "+random_target+" "+random_disease
-            #while random_drug in selected_entities or random_target in selected_entities or random_disease in selected_entities:
-            #    random_drug=random.choice(entity_list)
-            #    random_target=random.choice(entity_list)
-            #    random_disease=random.choice(entity_list)
-            #selected_entities[random_drug]=1
-            #selected_entities[random_target]=1
-            #selected_entities[random_disease]=1
-            if random_drug not in entity_set and random_target not in entity_set and random_disease not in entity_set:
-                drug_umls_type_exist=False
-                target_umls_type_exist=False
-                disease_umls_type_exist=False
-                for umls_type_of_drug in KG[random_drug]["TYPES"]:
-                    if umls_type_of_drug in drug_type_set:
-                        drug_umls_type_exist=True
-                        break
-                for umls_type_of_target in  KG[random_target]["TYPES"]:
-                    if umls_type_of_target in target_type_set:
-                        target_umls_type_exist=True
-                        break
-                for umls_type_of_disease in KG[random_disease]["TYPES"]:
-                    if umls_type_of_disease in disease_type_set:
-                        disease_umls_type_exist=True
-                if drug_umls_type_exist == target_umls_type_exist == disease_umls_type_exist == True:
-                    output.write("Disease:"+random_disease+"\tTarget:"+random_target+"\tDrug:"+random_drug+"\n")
-                    negative_examples_count += 1
-        print("Finished obtaining negative examples.")
+                while selected_example in selected_examples:
+                    random_drug=random.choice(entity_list)
+                    random_target=random.choice(entity_list)
+                    random_disease=random.choice(entity_list)
+                    selected_example=random_drug+" "+random_target+" "+random_disease
 
-            #def construct_negative_training_data(self,KG_file,experimental_disease_target_drug_file_negative,UMLS_type_dir,output_file):
+                if random_drug not in entity_set and random_target not in entity_set and random_disease not in entity_set:
+                    drug_umls_type_exist=False
+                    target_umls_type_exist=False
+                    disease_umls_type_exist=False
+                    for umls_type_of_drug in KG[random_drug]["TYPES"]:
+                        if umls_type_of_drug in drug_type_set:
+                            drug_umls_type_exist=True
+                            break
+                    for umls_type_of_target in  KG[random_target]["TYPES"]:
+                        if umls_type_of_target in target_type_set:
+                            target_umls_type_exist=True
+                            break
+                    for umls_type_of_disease in KG[random_disease]["TYPES"]:
+                        if umls_type_of_disease in disease_type_set:
+                            disease_umls_type_exist=True
+                    if drug_umls_type_exist == target_umls_type_exist == disease_umls_type_exist == True:
+                        output.write("Disease:"+random_disease+"\tTarget:"+random_target+"\tDrug:"+random_drug+"\n")
+                        negative_examples_count += 1
 
-    def construct_negative_training_data(self,KG_file,experimental_disease_target_drug_file_negative,UMLS_type_dir,output_file):
-        ## load KnowledgeGraph file
-        file=open(KG_file,"rb")
-        KG=pickle.load(file)
-        file.close()
-        ## load UMLS_type_file
-        file=open(UMLS_type_dir+"/predicate_vector.txt","rb")
-        predicate_vector=pickle.load(file)
-        file.close()
-        file=open(UMLS_type_dir+"/entity_vector.txt","rb")
-        entity_vector=pickle.load(file)
-        file.close()
-        output=open(output_file,"w+")
-        ## construct positive training data
-        disease_target_drug=open(experimental_disease_target_drug_file_negative,"r")
-        line=disease_target_drug.readline()
-        disease_target_drug_case_count=0
-        while line:
-            sline=line.split("\t")
-            drug=sline[2].split(":")[1].strip("\n")
-            disease=sline[0].split(":")[1].strip("\n")
-            target=sline[1].split(":")[1].strip("\n")
-            #print(drug+"\t"+target+"\t"+disease)
-            self.construct_training_negative_data_based_one_dtd(KG,entity_vector,predicate_vector,drug,target,disease,output)
-            disease_target_drug_case_count += 1
-            line=disease_target_drug.readline()
+
+    def negative_training_data(self):
+        if os.path.exists(self.output_dir+"/KnowledgeGraph"):
+            KG = pickle.load(open(self.output_dir+"/KnowledgeGraph", "rb"))
+        else:
+            constuct_KG= Construct_KG(self.predication_dir+"/predications.txt",self.output_dir+"/KnowledgeGraph")
+            KG = constuct_KG.construct_KnowledgeGraph()
+
+        if os.path.exists(self.output_dir+"/predicate_vector") and os.path.exists(self.output_dir+"/entity_vector"):
+            entity_vector = pickle.load(open(self.output_dir+"/entity_vector", "rb"))
+            predicate_vector = pickle.load(open(self.output_dir+"/predicate_vector", "rb"))
+        else:
+            entity_vector, predicate_vector = self.UMLS_type_vector()
+
+        if not os.path.exists(self.output_dir + "/experimental_disease_target_drug_negative"):
+            self.negative_dtd_cases()
+
+        output = open(self.output_dir + "/all_negative_data", "w+")
+        print("Constructing the negative training data ...")
+        with open(self.output_dir + "/experimental_disease_target_drug_negative", "r") as f:
+            for line in tqdm(f, total=sum(1 for _ in open(self.output_dir + "/experimental_disease_target_drug_negative", "r"))):
+                sline=line.split("\t")
+                drug=sline[2].split(":")[1].strip("\n")
+                disease=sline[0].split(":")[1].strip("\n")
+                target=sline[1].split(":")[1].strip("\n")
+                self.construct_training_negative_data_based_one_dtd(KG,entity_vector,predicate_vector,drug,target,disease,output)
         output.close()
-        disease_target_drug.close()
-        print(disease_target_drug_case_count)
-        print("finished...")
 
-    ## 该函数供construct_positive_training_data函数调用
+
     def construct_training_negative_data_based_one_dtd(self,KG,entity_vector,predicate_vector,drug,target,disease,output):
-
         ##
-        # The struction of KG, KG是一个字典，其中结构如下：
+        # The function is similar to construct_training_positive_data_based_one_dtd function.
+        # The struction of KG：
         # KG={
         #     subject:
         #            {"TYPES":{sysn:2,horm:1,htrf:3}
@@ -610,16 +598,8 @@ class obtain_experimental_data:
         #                      }}}}}
         ##
         ##
-        # 对于一种 drug-target-disease example 共有4种构造正例的可能，每一种可能都是一个长度为792的向量，分别是：
-        # 在KG中
-        # case 1: drug - PREDICATE_1 - target - PREDICATE_2 - disease  药物，靶标，疾病都直接关联。对于这样的例子也将其构造成702长度的vector,其形式为 drug - PREDICATE_1 - target - PREDICATE_1 - target - PREDICATE_2 - target - PREDICATE_2 - disease
-        # case 2: drug - PREDICATE_1 - entity - PREDICATE_2 - target - PREDICATE_3 - disease 药物和靶标直接相关，药物和疾病都间接相关。
-        # case 3: drug - PREDICATE_1 - target - PREDICATE_2 - entity - PREDICATE_3 - disease 药物和靶标间接相关，靶标和疾病直接相关。
-        # case 4: drug - PREDICATE_1 - entity_1 - PREDICATE_2 - target- PREDICATE_3 - entity_2 - PREDICATE_4 - disease 药物，靶标，疾病都间接相关。
-        # drug->target->
         if drug in KG:
-            # case 1: drug - PREDICATE_1 - target - PREDICATE_2 - disease  药物，靶标，疾病都直接关联。
-            # 对于这样的例子也将其构造成702长度的vector,其形式为:
+            # For case 1: drug - PREDICATE_1 - target - PREDICATE_2 - disease
             #  drug - PREDICATE_1 - target - PREDICATE_1 - target - PREDICATE_2 - target - PREDICATE_2 - disease
             if target in KG[drug]["OBJECTS"]:
                 if target in KG:
@@ -639,16 +619,16 @@ class obtain_experimental_data:
                         #  -- 2 the REAL target part of vector: target as subject
                         for umls_type in KG[target]["TYPES"]:
                             vector[133+52+133+52+entity_vector[umls_type]] += KG[target]["TYPES"][umls_type]
-                        # target part of vector: 第一个PREDICATE_1 - target - PREDICATE_1中的target，它的值从 REAL target中复制得到
+                        # target part of vector
                         vector[133+52:133+52+133] = vector[133+52+133+52:133+52+133+52+133]
-                        # PREDICATE_1 part of vector：这第二个PREDICATE_1的值和第一个PREDICATE_1相同，从第一个PREDICATE_1那复制得到即可
+                        # PREDICATE_1 part of vector
                         vector[133+52+133:133+52+133+52] = vector[133:133+52]
                         # PREDICATE_2 part of vector
                         for predicate in KG[target]["OBJECTS"][disease]["PREDICATES"]:
                             vector[133+52+133+52+133+predicate_vector[predicate]] += KG[target]["OBJECTS"][disease]["PREDICATES"][predicate]
-                        # target part of vector:PREDICATE_2 - target - PREDICATE_2这第二个target的值也和REAL target相同，从REAL target那复制得到即可
+                        # target part of vector:PREDICATE_2 - target - PREDICATE_2
                         vector[133+52+133+52+133+52:133+52+133+52+133+52+133] = vector[133+52+133+52:133+52+133+52+133]
-                        # PREDICATE_2 part of vector：这是求第二个PREDICATE_2的值，和第一个PREDICATE_2相同，复制过来即可
+                        # PREDICATE_2 part of vector
                         vector[133+52+133+52+133+52+133:133+52+133+52+133+52+133+52] = vector[133+52+133+52+133:133+52+133+52+133+52]
                         # disease part of vector
                         for umls_type in KG[target]["OBJECTS"][disease]["TYPES"]:
@@ -656,10 +636,9 @@ class obtain_experimental_data:
                         for umls_number in vector:
                             output.write(str(umls_number)+"\t")
                         output.write("0\n")
-                        if len(vector) > 874:
-                            print("case 1\t"+str(len(vector)))
-                    # case 3: drug - PREDICATE_1 - target - PREDICATE_2 - entity - PREDICATE_3 - disease 药物和靶标间接相关，靶标和疾病直接相关。
-                    # 得到的结果类型为 case 3: drug - PREDICATE_1 - target - PREDICATE_1 - target - PREDICATE_2 - entity - PREDICATE_3 - disease
+
+                    # For case 3: drug - PREDICATE_1 - target - PREDICATE_2 - entity - PREDICATE_3 - disease
+                    # drug - PREDICATE_1 - target - PREDICATE_1 - target - PREDICATE_2 - entity - PREDICATE_3 - disease
                     else:
                         for entity in KG[target]["OBJECTS"]:
                             if entity in KG:
@@ -672,24 +651,24 @@ class obtain_experimental_data:
                                     for predicate_1 in KG[drug]["OBJECTS"][target]["PREDICATES"]:
                                         vector[133+predicate_vector[predicate_1]] += KG[drug]["OBJECTS"][target]["PREDICATES"][predicate_1]
                                     # the REAL target of vector
-                                    # --1: target作为object的时候
+                                    # --1: target is object
                                     for umls_type in KG[drug]["OBJECTS"][target]["TYPES"]:
                                         vector[133+52+133+52+entity_vector[umls_type]] += KG[drug]["OBJECTS"][target]["TYPES"][umls_type]
-                                    # --2: target作为subject的时候
+                                    # --2: target is subject
                                     for umls_type in KG[target]["TYPES"]:
                                         vector[133+52+133+52+entity_vector[umls_type]] += KG[target]["TYPES"][umls_type]
-                                    # target of vector: PREDICATE_1 - target - PREDICATE_1这个target，其值和 REAL target相同，直接复制过来即可
+                                    # target of vector: PREDICATE_1 - target - PREDICATE_1
                                     vector[133+52:133+52+133] = vector[133+52+133+52:133+52+133+52+133]
-                                    # PREDICATE_1 of vector: 第二个PREDICATE_1，它的值和第一个PREDICATE_1相同，直接复制过来即可
+                                    # PREDICATE_1 of vector
                                     vector[133+52+133:133+52+133+52] = vector[133:133+52]
                                     # PREDICATE_2 of vector
                                     for predicate_2 in KG[target]["OBJECTS"][entity]["PREDICATES"]:
                                         vector[133+52+133+52+133+predicate_vector[predicate_2]] += KG[target]["OBJECTS"][entity]["PREDICATES"][predicate_2]
-                                    # entity of vector: PREDICATE_2 - entity - PREDICATE_3 种的entity
-                                    # -- 1 : entity作为object
+                                    # entity of vector: PREDICATE_2 - entity - PREDICATE_3
+                                    # -- 1 : entity is object
                                     for umls_type in KG[target]["OBJECTS"][entity]["TYPES"]:
                                         vector[133+52+133+52+133+52+entity_vector[umls_type]] += KG[target]["OBJECTS"][entity]["TYPES"][umls_type]
-                                    # --2 : entity 作为subject
+                                    # --2 : entity is subject
                                     for umls_type in KG[entity]["TYPES"]:
                                         vector[133+52+133+52+133+52+entity_vector[umls_type]] += KG[entity]["TYPES"][umls_type]
                                     # PREDICATE_3 of vector
@@ -703,9 +682,7 @@ class obtain_experimental_data:
                                     output.write("0\n")
                                     if len(vector) > 874:
                                         print("case 3\t"+str(len(vector)))
-            # case 2: drug - PREDICATE_1 - entity - PREDICATE_2 - target - PREDICATE_3 - disease 药物和靶标直接相关，药物和疾病都间接相关。
-            # 得到的类型为： drug - PREDICATE_1 - entity - PREDICATE_2 - target - PREDICATE_3 - target - PREDICATE_3 - disease 药物和靶标直接相关，药物和疾病都间接相关。
-            # 在图中存在的形态为 drug-entity-target-disease
+            # case 2: drug - PREDICATE_1 - entity - PREDICATE_2 - target - PREDICATE_3 - disease
             else:
                 for entity_1 in KG[drug]["OBJECTS"]:
                     if entity_1 in KG:
@@ -719,29 +696,29 @@ class obtain_experimental_data:
                                     # PREDICATE_1 part of vector
                                     for predicate_1 in KG[drug]["OBJECTS"][entity_1]["PREDICATES"]:
                                         vector[133+predicate_vector[predicate_1]] += KG[drug]["OBJECTS"][entity_1]["PREDICATES"][predicate_1]
-                                    # entity part of vector: 这个entity也是既当做subject也当做object，因此所有的umls_type都要收集起来
-                                    # --1 entity part of vector: entity当做object的时候
+                                    # entity part of vector
+                                    # --1 entity part of vector: entity is object
                                     for umls_type in KG[drug]["OBJECTS"][entity_1]["TYPES"]:
                                         vector[133+52+entity_vector[umls_type]] += KG[drug]["OBJECTS"][entity_1]["TYPES"][umls_type]
-                                    # --2 entity part of vector: entity当做subject的时候
+                                    # --2 entity part of vector: entity is subject
                                     for umls_type in KG[entity_1]["TYPES"]:
                                         vector[133+52+entity_vector[umls_type]] += KG[entity_1]["TYPES"][umls_type]
                                     # PREDICATE_2 part of vector
                                     for predicate_2 in KG[entity_1]["OBJECTS"][target]["PREDICATES"]:
                                         vector[133+52+133+predicate_vector[predicate_2]] += KG[entity_1]["OBJECTS"][target]["PREDICATES"][predicate_2]
-                                    # the REAL target part of vector: target同样既作为subject也作为object
-                                    # --1 target part of vector: target作为subject
+                                    # the REAL target part of vector
+                                    # --1 target part of vector: target is subject
                                     for umls_type in KG[entity_1]["OBJECTS"][target]["TYPES"]:
                                         vector[133+52+133+52+entity_vector[umls_type]] += KG[entity_1]["OBJECTS"][target]["TYPES"][umls_type]
-                                    # --2 target part of vector: target作为object
+                                    # --2 target part of vector: target is object
                                     for umls_type in KG[target]["TYPES"]:
                                         vector[133+52+133+52+entity_vector[umls_type]] += KG[target]["TYPES"][umls_type]
                                     # PREDICATE_3 part of vector
                                     for predicate_3 in KG[target]["OBJECTS"][disease]["PREDICATES"]:
                                         vector[133+52+133+52+133+predicate_vector[predicate_3]] += KG[target]["OBJECTS"][disease]["PREDICATES"][predicate_3]
-                                    # target part of vector: PREDICATE_3 - target - PREDICATE_3中的target,这个target和 REAL target值相同，直接复制到相应位置即可
+                                    # target part of vector: PREDICATE_3 - target - PREDICATE_3
                                     vector[133+52+133+52+133+52:133+52+133+52+133+52+133]=vector[133+52+133+52:133+52+133+52+133]
-                                    # PREDICATE_3 part of vector:这是第二个PREDICATE_3，与第一个PREDICATE_3相同，直接复制过来就行
+                                    # PREDICATE_3 part of vector:这是第二个PREDICATE_3
                                     vector[133+52+133+52+133+52+133:133+52+133+52+133+52+133+52] = vector[133+52+133+52+133:133+52+133+52+133+52]
                                     # disease part of vector
                                     for umls_type in KG[target]["OBJECTS"][disease]["TYPES"]:
@@ -751,8 +728,8 @@ class obtain_experimental_data:
                                     output.write("0\n")
                                     if len(vector) > 874:
                                         print("case 2\t"+str(len(vector)))
-                                # case 4: drug - PREDICATE_1 - entity_1 - PREDICATE_2 - target- PREDICATE_3 - entity_2 - PREDICATE_4 - disease 药物，靶标，疾病都间接相关。
-                                # 输出样例为：drug - PREDICATE_1 - entity_1 - PREDICATE_2 - target- PREDICATE_3 - entity_2 - PREDICATE_4 - disease
+                                # For case 4: drug - PREDICATE_1 - entity_1 - PREDICATE_2 - target- PREDICATE_3 - entity_2 - PREDICATE_4 - disease
+                                # Example: drug - PREDICATE_1 - entity_1 - PREDICATE_2 - target- PREDICATE_3 - entity_2 - PREDICATE_4 - disease
                                 else:
                                     for entity_2 in KG[target]["OBJECTS"]:
                                         if entity_2 in KG:
@@ -765,30 +742,30 @@ class obtain_experimental_data:
                                                 for predicate_1 in KG[drug]["OBJECTS"][entity_1]["PREDICATES"]:
                                                     vector[133+predicate_vector[predicate_1]] += KG[drug]["OBJECTS"][entity_1]["PREDICATES"][predicate_1]
                                                 # entity_1 part of vector
-                                                # --1 : entity_1作为object
+                                                # --1 : entity_1 is object
                                                 for umls_type in KG[drug]["OBJECTS"][entity_1]["TYPES"]:
                                                     vector[133+52+entity_vector[umls_type]] += KG[drug]["OBJECTS"][entity_1]["TYPES"][umls_type]
-                                                # --2 : entity_1作为subject
+                                                # --2 : entity_1 is subject
                                                 for umls_type in KG[entity_1]["TYPES"]:
                                                     vector[133+52+entity_vector[umls_type]] += KG[entity_1]["TYPES"][umls_type]
                                                 # PREDICATE_2 part of vector
                                                 for predicate_2 in KG[entity_1]["OBJECTS"][target]["PREDICATES"]:
                                                     vector[133+52+133+predicate_vector[predicate_2]] += KG[entity_1]["OBJECTS"][target]["PREDICATES"][predicate_2]
                                                 # target part of vector
-                                                # --1 : target作为object
+                                                # --1 : target is object
                                                 for umls_type in KG[entity_1]["OBJECTS"][target]["TYPES"]:
                                                     vector[133+52+133+52+entity_vector[umls_type]] += KG[entity_1]["OBJECTS"][target]["TYPES"][umls_type]
-                                                # --2 : target作为subject
+                                                # --2 : target is subject
                                                 for umls_type in KG[target]["TYPES"]:
                                                     vector[133+52+133+52+entity_vector[umls_type]] += KG[target]["TYPES"][umls_type]
                                                 # PREDICATE_3 part of vector
                                                 for predicate_3 in KG[target]["OBJECTS"][entity_2]["PREDICATES"]:
                                                     vector[133+52+133+52+133+predicate_vector[predicate_3]] += KG[target]["OBJECTS"][entity_2]["PREDICATES"][predicate_3]
                                                 # entity_2 part of vector
-                                                # --1 : entity_2作为object
+                                                # --1 : entity_2 is object
                                                 for umls_type in KG[target]["OBJECTS"][entity_2]["TYPES"]:
                                                     vector[133+52+133+52+133+52+entity_vector[umls_type]] += KG[target]["OBJECTS"][entity_2]["TYPES"][umls_type]
-                                                # --1 : entity_2作为subject
+                                                # --1 : entity_2 is subject
                                                 for umls_type in KG[entity_2]["TYPES"]:
                                                     vector[133+52+133+52+133+52+entity_vector[umls_type]] += KG[entity_2]["TYPES"][umls_type]
                                                 # PREDICATE_4 part of vector
@@ -803,7 +780,9 @@ class obtain_experimental_data:
                                                 if len(vector) > 874:
                                                     print("case 4\t"+str(len(vector)))
 
-        # 如果drug直接在图中（G[drug]）,即drug是以object的形式存在图中的
+
+class obtain_experimental_data:
+
 
     # 现在有了正负样例，需要将其分割成训练样本和测试样本：
     # 对于positive example（共有558个examples，其中很多疾病是重复的，如果统计疾病种类的话大概不会有特别多），将1/5拥有相同疾病的examples作为test data,其他做为training data，如果不足5个，则选一个。
@@ -1477,5 +1456,7 @@ if __name__ == "__main__":
     #s.disease_target()
     #s.drug_disease()
     #s.initial_disease_target_drug()
-    s.positive_training_data()
+    #s.positive_training_data()
+    #s.negative_dtd_cases()
+    s.negative_training_data()
 
