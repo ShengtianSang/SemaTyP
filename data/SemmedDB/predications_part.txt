@@ -1,0 +1,100 @@
+focal hand dystonia	patients	with	PROCESS_OF	dsyn	podg
+hand	focal hand dystonia	hand dystonia	PROCESS_OF	dsyn	podg
+patients	heat shock transcription factor 2	from	LOCATION_OF	podg	gngm
+head	squamous cell carcinomas	of	LOCATION_OF	blor	neop
+neck	squamous cell carcinomas	of	LOCATION_OF	blor	neop
+insulin secretion	patients	in	PROCESS_OF	celf	podg
+olanzapine	patients	treated	PROCESS_OF	celf	podg
+Sarcoidosis	granulomatous disease	Sarcoidosis is a multisystemic granulomatous disease	ISA	dsyn	dsyn
+thromboembolism	hospitalized patients	among	PROCESS_OF	patf	podg
+glucose	patients	with	PART_OF	bacs	podg
+visfatin	cardiovascular risk factors	relation	PART_OF	bacs	podg
+glucose	patients	with	PART_OF	bacs	podg
+serial	assessment	serial assessment	ISA	inpr	ftcn
+TNF-alpha	Visfatin	increase	STIMULATES	gngm	gngm
+glucose	patients	with	PART_OF	bacs	podg
+visfatin	cardiovascular risk factors	Relation	PART_OF	bacs	podg
+fatigue	patients	in	PROCESS_OF	sosy	podg
+depression	patients	in	PROCESS_OF	sosy	podg
+solid tumors	patients	with	PROCESS_OF	sosy	podg
+treatment	depression	treatment	PROCESS_OF	sosy	podg
+paroxetine	depression	treatment	PROCESS_OF	sosy	podg
+paroxetine	fatigue	treatment	PROCESS_OF	sosy	podg
+chemotherapy	fatigue	treatment	PROCESS_OF	sosy	podg
+paroxetine	depression	role	AFFECTS	orch	mobd
+paroxetine	fatigue	role	AFFECTS	orch	mobd
+disease	women	affects	AFFECTS	dsyn	popg
+Osteoporosis	disease	Osteoporosis is a skeletal disease	AFFECTS	dsyn	popg
+disease	men	affects	AFFECTS	dsyn	popg
+Osteoporosis	women	Osteoporosis is a skeletal disease	AFFECTS	dsyn	popg
+Osteoporosis	men	Osteoporosis is a skeletal disease	AFFECTS	dsyn	popg
+fractures	osteoporosis	result	CAUSES	inpo	dsyn
+Ciclesonide	asthma	for	TREATS	phsu	dsyn
+poisoning	patients	among	PROCESS_OF	inpo	podg
+drugs	depolarization	in	TREATS	phsu	patf
+poisoning	patients	poisoning patients	PROCESS_OF	inpo	podg
+subarachnoid hemorrhage	pigs	in	PROCESS_OF	dsyn	mamm
+placebo	saline	saline placebo	USES	topp	phsu
+nimodipine	CBF	improve	NEG_AFFECTS	orch	ortf
+nimodipine	cerebral vasospasm	alleviates	TREATS	phsu	dsyn
+subarachnoid hemorrhage	pigs	in	PROCESS_OF	dsyn	mamm
+topical administration	cerebral blood flow	Effects	PROCESS_OF	dsyn	mamm
+lamina propria	Duodenal biopsy	within	LOCATION_OF	tisu	diap
+polymerase chain reaction	Whipple's disease	confirmed	DIAGNOSES	lbpr	dsyn
+PAH	AOSD	occurring	OCCURS_IN	dsyn	dsyn
+PAH	AOSD	occurrences	OCCURS_IN	dsyn	dsyn
+Systemic lupus erythematosus	disease	Systemic lupus erythematosus (SLE) is a multisystem disease	ISA	dsyn	dsyn
+Lymphedema	SLE	in	COEXISTS_WITH	dsyn	dsyn
+extremity edema	patient	in	PROCESS_OF	patf	podg
+SLE	patient	with	PROCESS_OF	patf	podg
+extremity edema	systemic lupus erythematosus	in	COEXISTS_WITH	patf	dsyn
+Churg-Strauss syndrome	systemic vasculitis	Churg-Strauss syndrome (CSS) is a rare systemic vasculitis	ISA	dsyn	dsyn
+severe	course	course of pediatric CSS is usually severe	ISA	qlco	tmco
+eosinophilic granulocytes	blood	blood eosinophilic granulocytes	PART_OF	cell	tisu
+CSS	hypereosinophilia	presence	COEXISTS_WITH	dsyn	dsyn
+hypereosinophilia	children	in	PROCESS_OF	dsyn	aggp
+CSS	hypereosinophilia	cause	PROCESS_OF	dsyn	aggp
+insulin	type 2 diabetes mellitus	therapy	TREATS	horm	dsyn
+Mammography	amorphous calcification	revealed	DIAGNOSES	diap	fndg
+invasive ductal carcinoma	diabetic mastopathy	accompanying	COEXISTS_WITH	neop	dsyn
+mastectomy	patient	underwent	TREATS	topp	podg
+diabetic mastopathy	type II diabetes mellitus	in	COEXISTS_WITH	dsyn	dsyn
+Diabetes	disease	Diabetes is a disease	ISA	dsyn	dsyn
+type II diabetes	patients	type II diabetes patients	PROCESS_OF	dsyn	podg
+cardiovascular events	patients	in	PROCESS_OF	dsyn	podg
+diabetes	patients	diabetes patients	PROCESS_OF	dsyn	podg
+regimen	aspirin	aspirin regimen	PROCESS_OF	dsyn	podg
+cardiovascular events	Diabetes	Association	PROCESS_OF	dsyn	podg
+diabetic	patient	diabetic patient	PROCESS_OF	fndg	podg
+diabetes	patients	diabetes patients	PROCESS_OF	dsyn	podg
+aspirin	patients	take	PROCESS_OF	dsyn	podg
+type II diabetes	patients	type II diabetes patients	PROCESS_OF	dsyn	podg
+regimen	aspirin	aspirin regimen	PROCESS_OF	dsyn	podg
+diabetes	patients	diabetes patients	PROCESS_OF	dsyn	podg
+diabetes	patients	have	PROCESS_OF	dsyn	podg
+type II diabetes	patients	type II diabetes patients	PROCESS_OF	dsyn	podg
+cardiovascular events	patients	in	PROCESS_OF	dsyn	podg
+primary prevention	aspirin	using	PROCESS_OF	dsyn	podg
+complications	patients	in	PROCESS_OF	patf	podg
+type II diabetes	patients	type II diabetes patients	PROCESS_OF	patf	podg
+Primary prevention	aspirin	using	PROCESS_OF	patf	podg
+Kikuchi-Fujimoto disease	axillary lymphadenopathy	caused	CAUSES	dsyn	sosy
+axillary	enlarged axillary lymph nodes	axillary lymph nodes	LOCATION_OF	blor	fndg
+enlarged axillary lymph nodes	woman	with	LOCATION_OF	blor	fndg
+needle biopsy	histiocytic necrotizing lymphadenitis	showed	DIAGNOSES	diap	dsyn
+Kikuchi-Fujimoto disease	lymphadenopathy	caused	CAUSES	dsyn	dsyn
+left ventricle	dilation	of	LOCATION_OF	bpoc	patf
+left ventricle	dysfunction	of	LOCATION_OF	bpoc	patf
+coronary angiography	stenosis	show	LOCATION_OF	bpoc	patf
+apnoea	anamnesis	with	PROCESS_OF	patf	ortf
+medical therapy	cardiovascular disease	for	TREATS	topp	dsyn
+medical therapy	ventricular ectopy	control	TREATS	topp	patf
+heart failure	patient	with	PROCESS_OF	dsyn	podg
+breathing disorder	patient	with	PROCESS_OF	dsyn	podg
+ventricular ectopy	patient	in	PROCESS_OF	dsyn	podg
+medical therapy	ventricular ectopy	for	PROCESS_OF	dsyn	podg
+stroma	stromal hyperplasia	in	LOCATION_OF	bpoc	patf
+tumor	woman	with	PROCESS_OF	neop	popg
+left breast	tumor	in	PROCESS_OF	neop	popg
+Ultrasonography	benign tumor	revealed	DIAGNOSES	diap	neop
+breast	PASH	of	LOCATION_OF	bpoc	patf
