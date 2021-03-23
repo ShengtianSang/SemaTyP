@@ -1,7 +1,6 @@
-# SemaTyP: a knowledge graph based literature mining method for drug discovery
-
 <div align=center><img width="800" height="450" src="https://github.com/ShengtianSang/SemaTyP/blob/main/figures/Illustration_of_SemKG.jpg"/></div>
-<p align="center">An illustration of the knowledge graph - SemKG - constructed in our work.</p>
+
+# SemaTyP: a knowledge graph based literature mining method for drug discovery
 
 This is the source code and data for the task of drug discovery as describe in ou paper:
 ["SemaTyP: a knowledge graph based literature mining method for drug discovery"](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2167-5)
