@@ -14,8 +14,7 @@ This is the source code and data for the task of drug discovery as describe in o
 
 In order to use your own data, you have to provide 
 * [Theraputic Target Database](http://db.idrblab.net/ttd/full-data-download)  You don't need to download by yourself, I have uploaded all the TTD 2016 version in *<./data/TTD>*. 
-*
-*
+* [SemedDB](https://skr3.nlm.nih.gov/SemMedDB/)
 
 Process:
 1) Input the command "pip install -r requirements.txt" to install the environment 
