@@ -8,8 +8,14 @@ This is the source code and data for the task of drug discovery as describe in o
 ## Requirements
 * scikit-learn
 * numpy
-* xgboost
 * tqdm
+
+## Data
+
+In order to use your own data, you have to provide 
+* [Theraputic Target Database](http://db.idrblab.net/ttd/full-data-download)  You don't need to download by yourself, I have uploaded all the TTD 2016 version in *./Data/TTD*
+*
+*
 
 Process:
 1) Input the command "pip install -r requirements.txt" to install the environment 
