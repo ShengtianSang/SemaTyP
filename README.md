@@ -14,42 +14,40 @@ This is the source code and data for the task of drug discovery as describe in o
 
 In order to use the code, you have to provide 
 * [Theraputic Target Database](http://db.idrblab.net/ttd/full-data-download)  You don't need to download by yourself, I have uploaded all the TTD 2016 version in *<./data/TTD>*. 
-* [SemedDB](https://skr3.nlm.nih.gov/SemMedDB/) The knowledge graph is constructed by all relations contained in SemedDB, **you need to download from [here](https://pan.baidu.com/s/1zuOELNGAua6i523_nLK6mw)** with password:1234 . After downloading the "predications.txt" file, please replace the file *<./data/SemedDB/predications.txt>*. with this **new** downloaded file. 
+* [SemedDB](https://skr3.nlm.nih.gov/SemMedDB/) **You need to download from [here](https://pan.baidu.com/s/1zuOELNGAua6i523_nLK6mw)** with password:1234 to obtain the whole knowledge graph. After downloading the "predications.txt" file, please replace the file *<./data/SemedDB/predications.txt>*. with this **new** downloaded file. 
 
 ## Run the demo
+Install the environment.
 ```bash
 pip install -r requirements.txt
 ```
-Install the environment.
 
+Construct training and test data.
 ```bash
 python experimental_data.py
 ```
-Construct training and test data.
 
+Train and test the model.
 ```bash
 python main.py
 ```
-Train and test the model.
 
 
->File declaration:
 
->><data> directory: contains all the data used in our experiments.
+## File declaration
+
+**data/SemmedDB**： contains all relations extracted from SemmedDB, which are used for constructing the Knowledge Graph in our experiment. The whole "predications.txt" contains **39,133,975** relations, we just leave a small sample "predications.txt" file here which contain **100** relation. The whole "predications.txt" file coule be downloaded from 
   
->>><data/SemmedDB> contains all relations extracted from SemmedDB, which are used for constructing the Knowledge Graph in our experiment. The whole "predications.txt" contains 39,133,975 relations, we just leave a small sample "predications.txt" file here which contain 100 relation. The whole "predications.txt" file coule be downloaded from 
-  
->>><data/TTD> contains the drug, target and disease relations retrieved from Theraputic Target Database.
+**data/TTD**： contains the drug, target and disease relations retrieved from Theraputic Target Database.
     
->><experimental_data>: constuct the drug-target-disease associations from TTD and Knowledge Graph.
+**experimental_data**: constuct the drug-target-disease associations from TTD and Knowledge Graph.
 
->><knowledge_graph>: construct the Knowledge Graph used in our experiment.
+**knowledge_graph.py**: construct the Knowledge Graph used in our experiment.
+ 
+**load_data.py**：used to load traing and test data.
 
->><models> directory: contains the trained models.
-  
->><load_data.py> is used to load traing and test data.
+**main.py**：used to train and test the models
 
->><main.py> is used to train and test the models
 
 ## Cite
 
