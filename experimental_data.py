@@ -2,7 +2,6 @@ import pickle
 import os
 from tqdm import tqdm
 import random
-import random
 from utils import data_process
 from knowledge_graph import Construct_KG
 
